@@ -1,6 +1,7 @@
 package com.webgroup.yarik.detipapamama;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 public class Product {
 
@@ -8,45 +9,54 @@ public class Product {
     private String mPrice;
     private String mOldPrice;
     private int mId;
-    private Bitmap mImg;
+    private String mUrl;
+    private String imgUrl;
 
-    public String getmName() {
+    public String getName() {
         return mName;
     }
 
-    public void setmName(String mName) {
+    public void setName(String mName) {
         this.mName = mName;
     }
 
-    public String getmPrice() {
+    public String getPrice() {
         return mPrice;
     }
 
-    public void setmPrice(String mPrice) {
+    public void setPrice(String mPrice) {
         this.mPrice = mPrice;
     }
 
-    public String getmOldPrice() {
+    public String getOldPrice() {
         return mOldPrice;
     }
 
-    public void setmOldPrice(String mOldPrice) {
+    public void setOldPrice(String mOldPrice) {
         this.mOldPrice = mOldPrice;
     }
 
-    public int getmId() {
+    public int getId() {
         return mId;
     }
 
-    public void setmId(int mId) {
+    public void setId(int mId) {
         this.mId = mId;
     }
 
-    public Bitmap getmImg() {
-        return mImg;
+    public String getUrl() {
+        return mUrl;
     }
 
-    public void setmImg(Bitmap mImg) {
-        this.mImg = mImg;
+    public void setUrl(String url) {
+        mUrl = url;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }
