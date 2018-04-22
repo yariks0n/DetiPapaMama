@@ -107,6 +107,7 @@ public class Fetchr {
             item.setPrice(photoJsonObject.getString("price"));
             item.setOldPrice(photoJsonObject.getString("old_price"));
             item.setImgUrl(photoJsonObject.getString("img"));
+            item.setUrl(photoJsonObject.getString("detail_url"));
             items.add(item);
         }
     }

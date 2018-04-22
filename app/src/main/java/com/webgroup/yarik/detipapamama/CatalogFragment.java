@@ -1,10 +1,12 @@
 package com.webgroup.yarik.detipapamama;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -91,8 +93,8 @@ public class CatalogFragment extends Fragment {
                 int totalItemCount = mCatalogRecyclerView.getLayoutManager().getItemCount();
                 int pastVisiblesItems = ((LinearLayoutManager) mCatalogRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
 
-                if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && !isLoading && !isNewSearch) {
-                    Log.i(TAG, "Page " + Integer.toString(page));
+                if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && !isLoading && !isNewSearch && mItems.size() >= 10) {
+                    //Log.i(TAG, "Page " + Integer.toString(page));
                     isLoading = true;
                     page++;
                     updateItems();
@@ -128,15 +130,16 @@ public class CatalogFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 mCatalogRecyclerView.removeAllViewsInLayout();
-                Log.d(TAG, "QueryTextSubmit: " + s);
+                //Log.d(TAG, "QueryTextSubmit: " + s);
                 QueryPreferences.setStoredQuery(getActivity(), s);
                 isNewSearch = true;
+                reInitProductList();
                 updateItems();
                 return true;
             }
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d(TAG, "QueryTextChange: " + s);
+                //Log.d(TAG, "QueryTextChange: " + s);
                 return false;
             }
         });
@@ -155,6 +158,7 @@ public class CatalogFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_clear:
+                reInitProductList();
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
                 return true;
@@ -190,7 +194,9 @@ public class CatalogFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-
+            Uri address = Uri.parse(mProduct.getUrl());
+            Intent i = new Intent(Intent.ACTION_VIEW,address);
+            startActivity(i);
         }
     }
 
@@ -225,8 +231,6 @@ public class CatalogFragment extends Fragment {
             Drawable placeholder = getResources().getDrawable(android.R.drawable.ic_menu_camera);
             holder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(holder, productItem.getImgUrl());
-
-            Log.i(TAG,productItem.getName());
         }
 
         @Override
@@ -281,4 +285,10 @@ public class CatalogFragment extends Fragment {
         }
     }
 
+
+    private void reInitProductList(){
+        page = 1;
+        mItems.clear();
+        mCatalogAdapter = null;
+    }
 }
