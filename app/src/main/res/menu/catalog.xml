@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
     <item android:id="@+id/menu_item_search"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom" />
+
     <item android:id="@+id/menu_item_clear"
         android:title="@string/clear_search"
         app:showAsAction="never" />
+
+    <group android:checkableBehavior="all">
+
+        <item
+            android:id="@+id/detskie_tovary"
+            android:orderInCategory="100"
+            android:title="@string/detskie_tovary"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/sport_i_otdykh"
+            android:orderInCategory="100"
+            android:title="@string/sport_i_otdykh"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/dom_i_dacha"
+            android:orderInCategory="100"
+            android:title="@string/dom_i_dacha"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/dosug_i_razvlecheniya"
+            android:orderInCategory="100"
+            android:title="@string/dosug_i_razvlecheniya"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/mebel"
+            android:orderInCategory="100"
+            android:title="@string/mebel"
+            app:showAsAction="never" />
+    </group>
 </menu>

@@ -152,6 +152,13 @@ public class CatalogFragment extends Fragment {
                 isNewSearch = true;
             }
         });
+
+        MenuItem toggleItem = menu.findItem(R.id.detskie_tovary);
+        if (toggleItem.isChecked()) {
+            toggleItem.setChecked(true);
+        } else {
+            toggleItem.setChecked(false);
+        }
     }
 
     @Override
@@ -162,6 +169,12 @@ public class CatalogFragment extends Fragment {
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
                 return true;
+
+            case R.id.detskie_tovary:
+                reInitProductList();
+                getActivity().invalidateOptionsMenu();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -225,7 +238,6 @@ public class CatalogFragment extends Fragment {
                 holder.mOldPriceTextView.setPaintFlags(holder.mOldPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
-
             holder.bindProductItem(productItem);
 
             Drawable placeholder = getResources().getDrawable(android.R.drawable.ic_menu_camera);
@@ -259,14 +271,17 @@ public class CatalogFragment extends Fragment {
 
     private void updateItems(){
         String query = QueryPreferences.getStoredQuery(getActivity());
-        new FetchItemsTask(query).execute();
+        String sections = QueryPreferences.getStoredSections(getActivity());
+        new FetchItemsTask(query,sections).execute();
     }
 
     private class FetchItemsTask extends AsyncTask<Void,Void,List<Product>> {
 
         private String mQuery;
-        public FetchItemsTask(String query) {
+        private String mSections;
+        public FetchItemsTask(String query, String sections) {
             mQuery = query;
+            mSections = sections;
         }
 
         @Override
@@ -274,7 +289,7 @@ public class CatalogFragment extends Fragment {
             if (mQuery == null) {
                 return new Fetchr().fetchRecentProduct(page);
             } else {
-                return new Fetchr().searchProduct(mQuery,page);
+                return new Fetchr().searchProduct(mQuery,mSections,page);
             }
         }
 
@@ -284,7 +299,6 @@ public class CatalogFragment extends Fragment {
             setupAdapter();
         }
     }
-
 
     private void reInitProductList(){
         page = 1;

@@ -21,7 +21,7 @@ public class Fetchr {
     private static final String API_KEY = "522022865a9efdfeecc3accdab49bd52";
 
     private static final String FETCH_RECENTS_METHOD = "all";
-    private static final String SEARCH_METHOD = "name";
+    private static final String SEARCH_METHOD = "search";
 
     private static final Uri ENDPOINT = Uri
             .parse("http://detipapamama.ru/xapi/v1.0/index.php")
@@ -56,23 +56,24 @@ public class Fetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    private String buildUrl(String method, String query,int page) {
+    private String buildUrl(String method, String query, String sections, int page) {
         Uri.Builder uriBuilder = ENDPOINT.buildUpon().appendQueryParameter("page", Integer.toString(page));
 
         if (method.equals(SEARCH_METHOD)) {
             uriBuilder.appendQueryParameter("text", query);
+            uriBuilder.appendQueryParameter("sections", sections);
         }
 
         return uriBuilder.build().toString();
     }
 
     public List<Product> fetchRecentProduct(int page) {
-        String url = buildUrl(FETCH_RECENTS_METHOD, null, page);
+        String url = buildUrl(FETCH_RECENTS_METHOD, null, null, page);
         return downloadProductItems(url);
     }
 
-    public List<Product> searchProduct(String query,int page) {
-        String url = buildUrl(SEARCH_METHOD, query, page);
+    public List<Product> searchProduct(String query, String sections, int page) {
+        String url = buildUrl(SEARCH_METHOD, query, sections, page);
         return downloadProductItems(url);
     }
 
