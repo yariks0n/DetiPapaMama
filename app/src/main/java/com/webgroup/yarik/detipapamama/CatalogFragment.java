@@ -154,10 +154,38 @@ public class CatalogFragment extends Fragment {
         });
 
         MenuItem toggleItem = menu.findItem(R.id.detskie_tovary);
-        if (toggleItem.isChecked()) {
+        if (QueryPreferences.isStoredSectionExists(getActivity(),"detskie_tovary")) {
             toggleItem.setChecked(true);
         } else {
             toggleItem.setChecked(false);
+        }
+
+        MenuItem toggleItem2 = menu.findItem(R.id.sport_i_otdykh);
+        if (QueryPreferences.isStoredSectionExists(getActivity(),"sport_i_otdykh")) {
+            toggleItem2.setChecked(true);
+        } else {
+            toggleItem2.setChecked(false);
+        }
+
+        MenuItem toggleItem3 = menu.findItem(R.id.dom_i_dacha);
+        if (QueryPreferences.isStoredSectionExists(getActivity(),"dom_i_dacha")) {
+            toggleItem3.setChecked(true);
+        } else {
+            toggleItem3.setChecked(false);
+        }
+
+        MenuItem toggleItem4 = menu.findItem(R.id.dosug_i_razvlecheniya);
+        if (QueryPreferences.isStoredSectionExists(getActivity(),"dosug_i_razvlecheniya")) {
+            toggleItem4.setChecked(true);
+        } else {
+            toggleItem4.setChecked(false);
+        }
+
+        MenuItem toggleItem5 = menu.findItem(R.id.mebel);
+        if (QueryPreferences.isStoredSectionExists(getActivity(),"mebel")) {
+            toggleItem5.setChecked(true);
+        } else {
+            toggleItem5.setChecked(false);
         }
     }
 
@@ -171,8 +199,61 @@ public class CatalogFragment extends Fragment {
                 return true;
 
             case R.id.detskie_tovary:
-                reInitProductList();
+                if (!QueryPreferences.isStoredSectionExists(getActivity(),"detskie_tovary")) {
+                    QueryPreferences.addStoredSections(getActivity(),"detskie_tovary");
+                    Log.i(TAG,"added");
+                }else{
+                    QueryPreferences.deleteFromStoredSections(getActivity(),"detskie_tovary");
+                    Log.i(TAG,"delete");
+                }
+                Log.i(TAG,"VALUE: "+QueryPreferences.getStoredSections(getActivity()));
                 getActivity().invalidateOptionsMenu();
+                reInitProductList();
+                updateItems();
+                return true;
+
+            case R.id.sport_i_otdykh:
+                if (!QueryPreferences.isStoredSectionExists(getActivity(),"sport_i_otdykh")) {
+                    QueryPreferences.addStoredSections(getActivity(),"sport_i_otdykh");
+                }else{
+                    QueryPreferences.deleteFromStoredSections(getActivity(),"sport_i_otdykh");
+                }
+                getActivity().invalidateOptionsMenu();
+                reInitProductList();
+                updateItems();
+                return true;
+
+            case R.id.dom_i_dacha:
+                if (!QueryPreferences.isStoredSectionExists(getActivity(),"dom_i_dacha")) {
+                    QueryPreferences.addStoredSections(getActivity(),"dom_i_dacha");
+                }else{
+                    QueryPreferences.deleteFromStoredSections(getActivity(),"dom_i_dacha");
+                }
+                getActivity().invalidateOptionsMenu();
+                reInitProductList();
+                updateItems();
+                return true;
+
+            case R.id.dosug_i_razvlecheniya:
+                if (!QueryPreferences.isStoredSectionExists(getActivity(),"dosug_i_razvlecheniya")) {
+                    QueryPreferences.addStoredSections(getActivity(),"dosug_i_razvlecheniya");
+                }else{
+                    QueryPreferences.deleteFromStoredSections(getActivity(),"dosug_i_razvlecheniya");
+                }
+                getActivity().invalidateOptionsMenu();
+                reInitProductList();
+                updateItems();
+                return true;
+
+            case R.id.mebel:
+                if (!QueryPreferences.isStoredSectionExists(getActivity(),"mebel")) {
+                    QueryPreferences.addStoredSections(getActivity(),"mebel");
+                }else{
+                    QueryPreferences.deleteFromStoredSections(getActivity(),"mebel");
+                }
+                getActivity().invalidateOptionsMenu();
+                reInitProductList();
+                updateItems();
                 return true;
 
             default:
@@ -228,21 +309,20 @@ public class CatalogFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CatalogHolder holder, int position) {
+        public void onBindViewHolder(final CatalogHolder holder, int position) {
             Product productItem = mProducts.get(position);
 
-            holder.mNameTextView.setText(productItem.getName());
+            holder.mNameTextView.setText(productItem.getName()+" "+productItem.getOldPrice());
             holder.mPriceTextView.setText(productItem.getPrice()+" руб.");
-            if(!productItem.getPrice().equals(productItem.getOldPrice())){
+            //if(productItem.getOldPrice() != null){
                 holder.mOldPriceTextView.setText(productItem.getOldPrice()+" руб.");
                 holder.mOldPriceTextView.setPaintFlags(holder.mOldPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-
-            holder.bindProductItem(productItem);
+            //}
 
             Drawable placeholder = getResources().getDrawable(android.R.drawable.ic_menu_camera);
             holder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(holder, productItem.getImgUrl());
+            holder.bindProductItem(productItem);
         }
 
         @Override
@@ -286,7 +366,7 @@ public class CatalogFragment extends Fragment {
 
         @Override
         protected List<Product> doInBackground(Void... params) {
-            if (mQuery == null) {
+            if (mQuery == null && mSections == null) {
                 return new Fetchr().fetchRecentProduct(page);
             } else {
                 return new Fetchr().searchProduct(mQuery,mSections,page);

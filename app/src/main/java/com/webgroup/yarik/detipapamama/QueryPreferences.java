@@ -1,14 +1,18 @@
 package com.webgroup.yarik.detipapamama;
 
 import android.content.Context;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class QueryPreferences {
 
     private static final String PREF_SEARCH_QUERY = "searchQuery";
-    private static final String PREF_SEARCH_SECTIONS = "searchSEctions";
+    private static final String PREF_SEARCH_SECTIONS = "searchSections";
     private static final String PREF_LAST_RESULT_ID = "lastResultId";
 
     public static String getStoredQuery(Context context) {
@@ -26,23 +30,90 @@ public class QueryPreferences {
                 .getString(PREF_SEARCH_SECTIONS, null);
     }
 
-    public static String[] getStoredSectionsArray(Context context) {
+    public static ArrayList<String> getStoredSectionsArray(Context context) {
         String[] sections =  PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(PREF_SEARCH_SECTIONS, null).split(",");
-        return sections;
+
+        ArrayList<String> newArrayList = new ArrayList<>();
+        for(int i = 0; i < sections.length; i++){
+            newArrayList.add(sections[i]);
+        }
+        return newArrayList;
     }
 
-    public static void setStoredSections(Context context, String query) {
-        String[] sections = PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(PREF_SEARCH_SECTIONS, null).split(",");
-        String[] newSections = new String[sections.length+1];
-        if (!Arrays.asList(sections).contains(query)){
-            newSections[sections.length+1] = query;
-            String str = String.join(",", newSections);
+    public static void addStoredSections(Context context, String query) {
+        String strQuery = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_SEARCH_SECTIONS, null);
+        if(strQuery == null){
             PreferenceManager.getDefaultSharedPreferences(context)
                     .edit()
-                    .putString(PREF_SEARCH_SECTIONS, str)
+                    .putString(PREF_SEARCH_SECTIONS, query)
                     .apply();
+        }else{
+            Log.i("PREFS","query: "+query);
+            Log.i("PREFS","strQuery: "+strQuery);
+            if(strQuery.equals("")){
+                PreferenceManager.getDefaultSharedPreferences(context)
+                        .edit()
+                        .putString(PREF_SEARCH_SECTIONS, query)
+                        .apply();
+            }else{
+                String[] sections = strQuery.split(",");
+
+                for(int i = 0; i < sections.length; i++){
+                    Log.i("PREFS","sections["+i+"]: "+sections[i]);
+                }
+
+                if (!Arrays.asList(sections).contains(query)){
+                    String resultString = "";
+                    for(int i = 0; i < sections.length; i++){
+                        resultString += sections[i]+",";
+                    }
+                    resultString += query;
+                    PreferenceManager.getDefaultSharedPreferences(context)
+                            .edit()
+                            .putString(PREF_SEARCH_SECTIONS, resultString)
+                            .apply();
+                }
+            }
+
+        }
+    }
+
+    public static void deleteFromStoredSections(Context context, String query) {
+
+        String strQuery = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_SEARCH_SECTIONS, null);
+        if (strQuery != null) {
+            String[] sections = strQuery.split(",");
+            String resultString = "";
+
+            for(int i = 0; i < sections.length; i++){
+                if(sections[i].equals(query)) continue;
+                resultString += sections[i]+",";
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(context)
+                    .edit()
+                    .putString(PREF_SEARCH_SECTIONS, resultString)
+                    .apply();
+
+        }
+    }
+
+    public static boolean isStoredSectionExists(Context context, String query) {
+        String strQuery = PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(PREF_SEARCH_SECTIONS, null);
+
+        if(strQuery == null)
+            return false;
+
+        String[] sections = strQuery.split(",");
+        String[] newSections = new String[sections.length+1];
+        if (Arrays.asList(sections).contains(query)){
+           return true;
+        } else {
+           return false;
         }
     }
 
