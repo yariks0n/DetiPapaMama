@@ -83,31 +83,36 @@
             android:id="@+id/detskie_tovary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/detskie_tovary" />
+            android:text="@string/detskie_tovary"
+            android:tag="section_checkbox" />
 
         <CheckBox
             android:id="@+id/sport_i_otdykh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sport_i_otdykh" />
+            android:text="@string/sport_i_otdykh"
+            android:tag="section_checkbox" />
 
         <CheckBox
             android:id="@+id/dom_i_dacha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dom_i_dacha" />
+            android:text="@string/dom_i_dacha"
+            android:tag="section_checkbox" />
 
         <CheckBox
             android:id="@+id/dosug_i_razvlecheniya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dosug_i_razvlecheniya" />
+            android:text="@string/dosug_i_razvlecheniya"
+            android:tag="section_checkbox" />
 
         <CheckBox
             android:id="@+id/mebel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mebel" />
+            android:text="@string/mebel"
+            android:tag="section_checkbox" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

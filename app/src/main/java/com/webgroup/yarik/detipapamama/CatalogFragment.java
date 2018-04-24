@@ -86,7 +86,7 @@ public class CatalogFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_catalog_list, container,
                 false);
-
+        Filter f = new Filter(v);
 
         mFilterBlock = (LinearLayout) v.findViewById(R.id.filter_block);
         mFilterBlock.setOnClickListener(new View.OnClickListener() {
