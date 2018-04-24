@@ -1,7 +1,6 @@
 package com.webgroup.yarik.detipapamama;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.content.Context;
 
 public class Product {
 
@@ -24,12 +23,24 @@ public class Product {
         return mPrice;
     }
 
+    public String getPriceFormat() {
+        if(mPrice == null)
+            return "";
+        return mPrice+" "+Settings.getForamtRubl();
+    }
+
     public void setPrice(String mPrice) {
         this.mPrice = mPrice;
     }
 
     public String getOldPrice() {
         return mOldPrice;
+    }
+
+    public String getOldPriceFormat() {
+        if(mOldPrice == null)
+            return "";
+        return mOldPrice+" "+Settings.getForamtRubl();
     }
 
     public void setOldPrice(String mOldPrice) {

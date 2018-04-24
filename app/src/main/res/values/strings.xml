@@ -2,6 +2,7 @@
     <string name="app_name">DetiPapaMama</string>
     <string name="search">Поиск</string>
     <string name="clear_search">Очистить поиск</string>
+    <string name="rub">руб.</string>
 
     <string name="detskie_tovary">Детские товары</string>
     <string name="sport_i_otdykh">Спорт и отдых</string>

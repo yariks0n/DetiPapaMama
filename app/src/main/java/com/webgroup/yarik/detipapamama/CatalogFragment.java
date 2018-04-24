@@ -47,6 +47,7 @@ public class CatalogFragment extends Fragment {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Settings.context = getContext();
         setRetainInstance(true);
         setHasOptionsMenu(true);
         updateItems();
@@ -312,12 +313,11 @@ public class CatalogFragment extends Fragment {
         public void onBindViewHolder(final CatalogHolder holder, int position) {
             Product productItem = mProducts.get(position);
 
-            holder.mNameTextView.setText(productItem.getName()+" "+productItem.getOldPrice());
-            holder.mPriceTextView.setText(productItem.getPrice()+" руб.");
-            //if(productItem.getOldPrice() != null){
-                holder.mOldPriceTextView.setText(productItem.getOldPrice()+" руб.");
-                holder.mOldPriceTextView.setPaintFlags(holder.mOldPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            //}
+            holder.mNameTextView.setText(productItem.getName());
+            holder.mPriceTextView.setText(productItem.getPriceFormat());
+
+            holder.mOldPriceTextView.setText(productItem.getOldPriceFormat());
+            holder.mOldPriceTextView.setPaintFlags(holder.mOldPriceTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
             Drawable placeholder = getResources().getDrawable(android.R.drawable.ic_menu_camera);
             holder.bindDrawable(placeholder);
