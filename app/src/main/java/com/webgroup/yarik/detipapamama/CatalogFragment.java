@@ -1,5 +1,6 @@
 package com.webgroup.yarik.detipapamama;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,8 +22,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -34,6 +39,10 @@ public class CatalogFragment extends Fragment {
 
     private static final String TAG = "CatalogFragment";
     private RecyclerView mCatalogRecyclerView;
+    private LinearLayout mFilterBlock;
+
+    private TextView mFilterAction, mSortAction;
+
     private CatalogAdapter mCatalogAdapter;
     private List<Product> mItems = new ArrayList<>();
     private int page = 1;
@@ -48,6 +57,7 @@ public class CatalogFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Settings.context = getContext();
+        Settings.activity = getActivity();
         setRetainInstance(true);
         setHasOptionsMenu(true);
         updateItems();
@@ -67,7 +77,7 @@ public class CatalogFragment extends Fragment {
 
         mThumbnailDownloader.start();
         mThumbnailDownloader.getLooper();
-        Log.i(TAG, "Background thread started");
+        //Log.i(TAG, "Background thread started");
     }
 
 
@@ -76,10 +86,49 @@ public class CatalogFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_catalog_list, container,
                 false);
+
+
+        mFilterBlock = (LinearLayout) v.findViewById(R.id.filter_block);
+        mFilterBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float xStart = 0;
+                float xEnd = -mFilterBlock.getWidth();
+                ObjectAnimator hide = ObjectAnimator
+                        .ofFloat(mFilterBlock, "x", xStart, xEnd)
+                        .setDuration(300);
+                hide.setInterpolator(new AccelerateInterpolator());
+                hide.start();
+            }
+        });
+        mFilterBlock.setMinimumWidth(Settings.getScreenSize().x / 2);
+        mFilterBlock.setTranslationX(-Settings.getScreenSize().x / 2);
+
+        final Animation fallingAnimation = AnimationUtils.loadAnimation(v.getContext(),
+                R.anim.left_in);
+
+        mFilterAction = (TextView) v.findViewById(R.id.action_filter);
+        mFilterAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float xStart = mFilterBlock.getTranslationX();
+                float xEnd = 0;
+                ObjectAnimator show = ObjectAnimator
+                        .ofFloat(mFilterBlock, "x", xStart, xEnd)
+                        .setDuration(300);
+                show.setInterpolator(new AccelerateInterpolator());
+                show.start();
+            }
+        });
+
+        mSortAction = (TextView) v.findViewById(R.id.action_sort);
+
         mCatalogRecyclerView = (RecyclerView) v.findViewById(R.id.catalog_recycler_view);
         mCatalogRecyclerView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
         setupAdapter();
+
+
 
         mCatalogRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
