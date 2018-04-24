@@ -81,12 +81,22 @@ public class CatalogFragment extends Fragment {
     }
 
 
+    public void mFilterBlockHide(){
+        float xStart = 0;
+        float xEnd = -mFilterBlock.getWidth();
+        ObjectAnimator hide = ObjectAnimator
+                .ofFloat(mFilterBlock, "x", xStart, xEnd)
+                .setDuration(300);
+        hide.setInterpolator(new AccelerateInterpolator());
+        hide.start();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_catalog_list, container,
                 false);
-        Filter f = new Filter(v);
+        Filter f = new Filter(this, v);
 
         mFilterBlock = (LinearLayout) v.findViewById(R.id.filter_block);
         mFilterBlock.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +190,6 @@ public class CatalogFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
                 mCatalogRecyclerView.removeAllViewsInLayout();
-                //Log.d(TAG, "QueryTextSubmit: " + s);
                 QueryPreferences.setStoredQuery(getActivity(), s);
                 isNewSearch = true;
                 reInitProductList();
@@ -189,7 +198,6 @@ public class CatalogFragment extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String s) {
-                //Log.d(TAG, "QueryTextChange: " + s);
                 return false;
             }
         });

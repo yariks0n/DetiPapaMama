@@ -77,42 +77,49 @@
             android:text="Разделы"
             android:textStyle="bold"
             android:textSize="18sp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal" />
 
         <CheckBox
             android:id="@+id/detskie_tovary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/detskie_tovary"
-            android:tag="section_checkbox" />
+            android:text="@string/detskie_tovary" />
 
         <CheckBox
             android:id="@+id/sport_i_otdykh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sport_i_otdykh"
-            android:tag="section_checkbox" />
+            android:text="@string/sport_i_otdykh" />
 
         <CheckBox
             android:id="@+id/dom_i_dacha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dom_i_dacha"
-            android:tag="section_checkbox" />
+            android:text="@string/dom_i_dacha" />
 
         <CheckBox
             android:id="@+id/dosug_i_razvlecheniya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dosug_i_razvlecheniya"
-            android:tag="section_checkbox" />
+            android:text="@string/dosug_i_razvlecheniya" />
 
         <CheckBox
             android:id="@+id/mebel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mebel"
-            android:tag="section_checkbox" />
+            android:text="@string/mebel" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sections_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:paddingTop="46dp">
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
