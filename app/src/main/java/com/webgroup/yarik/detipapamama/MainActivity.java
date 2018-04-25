@@ -9,12 +9,8 @@ import android.util.Log;
 
 public class MainActivity extends SingleFragmentActivity {
 
-
     @Override
     protected Fragment createFragment() {
-        getSupportActionBar().setIcon(R.drawable.logo);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         return CatalogFragment.newInstance();
     }
 
