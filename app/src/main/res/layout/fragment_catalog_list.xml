@@ -83,6 +83,66 @@
         android:background="@drawable/border_w_shadow"
         android:elevation="2dp"
         android:orientation="vertical">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="50dp">
+
+            <TextView
+                android:id="@+id/sort_popular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="2dp"
+                android:text="@string/sort_popular"
+                android:textColor="#2CA5FF"
+                android:tag="sort_popular"/>
+
+            <TextView
+                android:id="@+id/sort_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="2dp"
+                android:text="@string/sort_new"
+                android:textColor="#2CA5FF"
+                android:tag="sort_new"/>
+
+            <TextView
+                android:id="@+id/sort_price_asc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="2dp"
+                android:text="@string/sort_price_asc"
+                android:textColor="#2CA5FF"
+                android:tag="sort_price_asc"/>
+
+            <TextView
+                android:id="@+id/sort_price_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:layout_marginLeft="2dp"
+                android:text="@string/sort_price_desc"
+                android:textColor="#2CA5FF"
+                android:tag="sort_price_desc"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <ProgressBar

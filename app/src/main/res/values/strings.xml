@@ -12,4 +12,8 @@
     <string name="dosug_i_razvlecheniya">Досуг и развлечения</string>
     <string name="mebel">Мебель</string>
 
+    <string name="sort_popular">Сначала популярные</string>
+    <string name="sort_new">Сначала Новинки</string>
+    <string name="sort_price_asc">Сначала дешёвые</string>
+    <string name="sort_price_desc">Сначала дорогие</string>
 </resources>

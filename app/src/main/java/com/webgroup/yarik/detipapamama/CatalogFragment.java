@@ -93,24 +93,30 @@ public class CatalogFragment extends Fragment {
         hide.start();
     }
 
+    public void mSortBlockHide(){
+        float xStart = Settings.getScreenSize().x / 2;
+        float xEnd = Settings.getScreenSize().x;
+        ObjectAnimator hide = ObjectAnimator
+                .ofFloat(mSortBlock, "x", xStart, xEnd)
+                .setDuration(300);
+        hide.setInterpolator(new AccelerateInterpolator());
+        hide.start();
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_catalog_list, container,
                 false);
-        Filter f = new Filter(this, v);
+        Filter filter = new Filter(this, v);
+        Sort sort = new Sort(this, v);
 
         mFilterBlock = (LinearLayout) v.findViewById(R.id.filter_block);
         mFilterBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float xStart = 0;
-                float xEnd = -mFilterBlock.getWidth();
-                ObjectAnimator hide = ObjectAnimator
-                        .ofFloat(mFilterBlock, "x", xStart, xEnd)
-                        .setDuration(300);
-                hide.setInterpolator(new AccelerateInterpolator());
-                hide.start();
+                mFilterBlockHide();
             }
         });
         mFilterBlock.setMinimumWidth(Settings.getScreenSize().x / 2);
@@ -134,17 +140,11 @@ public class CatalogFragment extends Fragment {
         mSortBlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float xStart = Settings.getScreenSize().x / 2;
-                float xEnd = Settings.getScreenSize().x + Settings.getScreenSize().x / 2;
-                ObjectAnimator hide = ObjectAnimator
-                        .ofFloat(mSortBlock, "x", xStart, xEnd)
-                        .setDuration(400);
-                hide.setInterpolator(new AccelerateInterpolator());
-                hide.start();
+                mSortBlockHide();
             }
         });
         mSortBlock.setMinimumWidth(Settings.getScreenSize().x / 2);
-        mSortBlock.setTranslationX(Settings.getScreenSize().x + Settings.getScreenSize().x / 2);
+        mSortBlock.setTranslationX(Settings.getScreenSize().x);
 
         mSortAction = (TextView) v.findViewById(R.id.action_sort);
         mSortAction.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +192,7 @@ public class CatalogFragment extends Fragment {
 
         return v;
     }
+
 
     private void showProgressBar(){
         if(mCatalogRecyclerView != null)
@@ -363,25 +364,29 @@ public class CatalogFragment extends Fragment {
         showProgressBar();
         String query = QueryPreferences.getStoredQuery(getActivity());
         String sections = QueryPreferences.getStoredSections(getActivity());
-        new FetchItemsTask(query,sections).execute();
+        String sort = QueryPreferences.getSortQuery(getActivity());
+        new FetchItemsTask(query,sections,sort).execute();
     }
 
     private class FetchItemsTask extends AsyncTask<Void,Void,List<Product>> {
 
         private String mQuery;
         private String mSections;
-        public FetchItemsTask(String query, String sections) {
+        private String mSort;
+
+        public FetchItemsTask(String query, String sections, String sort) {
             mQuery = query;
             mSections = sections;
+            mSort = sort;
             showProgressBar();
         }
 
         @Override
         protected List<Product> doInBackground(Void... params) {
-            if (mQuery == null && mSections == null) {
+            if (mQuery == null && mSections == null && mSort == null) {
                 return new Fetchr().fetchRecentProduct(page);
             } else {
-                return new Fetchr().searchProduct(mQuery,mSections,page);
+                return new Fetchr().searchProduct(mQuery,mSections,mSort,page);
             }
         }
 

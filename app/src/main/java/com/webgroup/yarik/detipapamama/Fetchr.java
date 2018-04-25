@@ -56,24 +56,25 @@ public class Fetchr {
         return new String(getUrlBytes(urlSpec));
     }
 
-    private String buildUrl(String method, String query, String sections, int page) {
+    private String buildUrl(String method, String query, String sections, String sort, int page) {
         Uri.Builder uriBuilder = ENDPOINT.buildUpon().appendQueryParameter("page", Integer.toString(page));
 
         if (method.equals(SEARCH_METHOD)) {
             uriBuilder.appendQueryParameter("text", query);
             uriBuilder.appendQueryParameter("sections", sections);
+            uriBuilder.appendQueryParameter("sort", sort);
         }
 
         return uriBuilder.build().toString();
     }
 
     public List<Product> fetchRecentProduct(int page) {
-        String url = buildUrl(FETCH_RECENTS_METHOD, null, null, page);
+        String url = buildUrl(FETCH_RECENTS_METHOD, null, null,null, page);
         return downloadProductItems(url);
     }
 
-    public List<Product> searchProduct(String query, String sections, int page) {
-        String url = buildUrl(SEARCH_METHOD, query, sections, page);
+    public List<Product> searchProduct(String query, String sections, String sort, int page) {
+        String url = buildUrl(SEARCH_METHOD, query, sections, sort, page);
         return downloadProductItems(url);
     }
 
