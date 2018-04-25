@@ -28,6 +28,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -40,6 +41,7 @@ public class CatalogFragment extends Fragment {
     private static final String TAG = "CatalogFragment";
     private RecyclerView mCatalogRecyclerView;
     private LinearLayout mFilterBlock;
+    private ProgressBar mProgressBar;
 
     private TextView mFilterAction, mSortAction;
 
@@ -136,9 +138,10 @@ public class CatalogFragment extends Fragment {
         mCatalogRecyclerView = (RecyclerView) v.findViewById(R.id.catalog_recycler_view);
         mCatalogRecyclerView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
+
+        mProgressBar = (ProgressBar) v.findViewById(R.id.download_progress);
+
         setupAdapter();
-
-
 
         mCatalogRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -163,6 +166,23 @@ public class CatalogFragment extends Fragment {
         });
 
         return v;
+    }
+
+    private void showProgressBar(){
+        if(mCatalogRecyclerView != null)
+            mCatalogRecyclerView.setVisibility(View.INVISIBLE);
+
+        if(mProgressBar != null)
+            mProgressBar.setVisibility(View.VISIBLE);
+
+    }
+
+    private void hideProgressBar(){
+        if(mCatalogRecyclerView != null)
+            mCatalogRecyclerView.setVisibility(View.VISIBLE);
+
+        if(mProgressBar != null)
+            mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -211,40 +231,6 @@ public class CatalogFragment extends Fragment {
             }
         });
 
-       /* MenuItem toggleItem = menu.findItem(R.id.detskie_tovary);
-        if (QueryPreferences.isStoredSectionExists(getActivity(),"detskie_tovary")) {
-            toggleItem.setChecked(true);
-        } else {
-            toggleItem.setChecked(false);
-        }
-
-        MenuItem toggleItem2 = menu.findItem(R.id.sport_i_otdykh);
-        if (QueryPreferences.isStoredSectionExists(getActivity(),"sport_i_otdykh")) {
-            toggleItem2.setChecked(true);
-        } else {
-            toggleItem2.setChecked(false);
-        }
-
-        MenuItem toggleItem3 = menu.findItem(R.id.dom_i_dacha);
-        if (QueryPreferences.isStoredSectionExists(getActivity(),"dom_i_dacha")) {
-            toggleItem3.setChecked(true);
-        } else {
-            toggleItem3.setChecked(false);
-        }
-
-        MenuItem toggleItem4 = menu.findItem(R.id.dosug_i_razvlecheniya);
-        if (QueryPreferences.isStoredSectionExists(getActivity(),"dosug_i_razvlecheniya")) {
-            toggleItem4.setChecked(true);
-        } else {
-            toggleItem4.setChecked(false);
-        }
-
-        MenuItem toggleItem5 = menu.findItem(R.id.mebel);
-        if (QueryPreferences.isStoredSectionExists(getActivity(),"mebel")) {
-            toggleItem5.setChecked(true);
-        } else {
-            toggleItem5.setChecked(false);
-        }*/
     }
 
     @Override
@@ -255,65 +241,6 @@ public class CatalogFragment extends Fragment {
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
                 return true;
-
-           /* case R.id.detskie_tovary:
-                if (!QueryPreferences.isStoredSectionExists(getActivity(),"detskie_tovary")) {
-                    QueryPreferences.addStoredSections(getActivity(),"detskie_tovary");
-                    Log.i(TAG,"added");
-                }else{
-                    QueryPreferences.deleteFromStoredSections(getActivity(),"detskie_tovary");
-                    Log.i(TAG,"delete");
-                }
-                Log.i(TAG,"VALUE: "+QueryPreferences.getStoredSections(getActivity()));
-                getActivity().invalidateOptionsMenu();
-                reInitProductList();
-                updateItems();
-                return true;
-
-            case R.id.sport_i_otdykh:
-                if (!QueryPreferences.isStoredSectionExists(getActivity(),"sport_i_otdykh")) {
-                    QueryPreferences.addStoredSections(getActivity(),"sport_i_otdykh");
-                }else{
-                    QueryPreferences.deleteFromStoredSections(getActivity(),"sport_i_otdykh");
-                }
-                getActivity().invalidateOptionsMenu();
-                reInitProductList();
-                updateItems();
-                return true;
-
-            case R.id.dom_i_dacha:
-                if (!QueryPreferences.isStoredSectionExists(getActivity(),"dom_i_dacha")) {
-                    QueryPreferences.addStoredSections(getActivity(),"dom_i_dacha");
-                }else{
-                    QueryPreferences.deleteFromStoredSections(getActivity(),"dom_i_dacha");
-                }
-                getActivity().invalidateOptionsMenu();
-                reInitProductList();
-                updateItems();
-                return true;
-
-            case R.id.dosug_i_razvlecheniya:
-                if (!QueryPreferences.isStoredSectionExists(getActivity(),"dosug_i_razvlecheniya")) {
-                    QueryPreferences.addStoredSections(getActivity(),"dosug_i_razvlecheniya");
-                }else{
-                    QueryPreferences.deleteFromStoredSections(getActivity(),"dosug_i_razvlecheniya");
-                }
-                getActivity().invalidateOptionsMenu();
-                reInitProductList();
-                updateItems();
-                return true;
-
-            case R.id.mebel:
-                if (!QueryPreferences.isStoredSectionExists(getActivity(),"mebel")) {
-                    QueryPreferences.addStoredSections(getActivity(),"mebel");
-                }else{
-                    QueryPreferences.deleteFromStoredSections(getActivity(),"mebel");
-                }
-                getActivity().invalidateOptionsMenu();
-                reInitProductList();
-                updateItems();
-                return true;*/
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -404,9 +331,11 @@ public class CatalogFragment extends Fragment {
             isLoading = false;
             isNewSearch = false;
         }
+        hideProgressBar();
     }
 
     public void updateItems(){
+        showProgressBar();
         String query = QueryPreferences.getStoredQuery(getActivity());
         String sections = QueryPreferences.getStoredSections(getActivity());
         new FetchItemsTask(query,sections).execute();
