@@ -12,7 +12,7 @@
         android:title="@string/clear_search"
         app:showAsAction="never" />
 
-    <group android:checkableBehavior="all">
+    <!--<group android:checkableBehavior="all">
 
         <item
             android:id="@+id/detskie_tovary"
@@ -43,5 +43,5 @@
             android:orderInCategory="100"
             android:title="@string/mebel"
             app:showAsAction="never" />
-    </group>
+    </group>-->
 </menu>

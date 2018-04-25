@@ -211,7 +211,7 @@ public class CatalogFragment extends Fragment {
             }
         });
 
-        MenuItem toggleItem = menu.findItem(R.id.detskie_tovary);
+       /* MenuItem toggleItem = menu.findItem(R.id.detskie_tovary);
         if (QueryPreferences.isStoredSectionExists(getActivity(),"detskie_tovary")) {
             toggleItem.setChecked(true);
         } else {
@@ -244,7 +244,7 @@ public class CatalogFragment extends Fragment {
             toggleItem5.setChecked(true);
         } else {
             toggleItem5.setChecked(false);
-        }
+        }*/
     }
 
     @Override
@@ -256,7 +256,7 @@ public class CatalogFragment extends Fragment {
                 updateItems();
                 return true;
 
-            case R.id.detskie_tovary:
+           /* case R.id.detskie_tovary:
                 if (!QueryPreferences.isStoredSectionExists(getActivity(),"detskie_tovary")) {
                     QueryPreferences.addStoredSections(getActivity(),"detskie_tovary");
                     Log.i(TAG,"added");
@@ -312,7 +312,7 @@ public class CatalogFragment extends Fragment {
                 getActivity().invalidateOptionsMenu();
                 reInitProductList();
                 updateItems();
-                return true;
+                return true;*/
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -406,7 +406,7 @@ public class CatalogFragment extends Fragment {
         }
     }
 
-    private void updateItems(){
+    public void updateItems(){
         String query = QueryPreferences.getStoredQuery(getActivity());
         String sections = QueryPreferences.getStoredSections(getActivity());
         new FetchItemsTask(query,sections).execute();
@@ -437,7 +437,7 @@ public class CatalogFragment extends Fragment {
         }
     }
 
-    private void reInitProductList(){
+    public void reInitProductList(){
         page = 1;
         mItems.clear();
         mCatalogAdapter = null;

@@ -1,6 +1,7 @@
 package com.webgroup.yarik.detipapamama;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,8 @@ public class Filter {
         mRecyclerView = (RecyclerView) v.findViewById(R.id.sections_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager
                 (mContext));
-        updateUI();
+
+        updateItems();
     }
 
     private class FilterSectionsHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -48,17 +50,32 @@ public class Filter {
 
         public void bind(Section section) {
             mSection = section;
+            if (QueryPreferences.isStoredSectionExists(mContext,mSection.getCode())) {
+                mCheckBox.setChecked(true);
+            } else {
+                mCheckBox.setChecked(false);
+            }
         }
 
         @Override
         public void onClick(View v) {
+            String code = mSection.getCode();
+            if (!QueryPreferences.isStoredSectionExists(mContext,code)) {
+                QueryPreferences.addStoredSections(mContext,code);
+                mCheckBox.setChecked(true);
+            }else{
+                QueryPreferences.deleteFromStoredSections(mContext,code);
+                mCheckBox.setChecked(false);
+            }
+
+            mCatalogFragment.reInitProductList();
+            mCatalogFragment.updateItems();
             mCatalogFragment.mFilterBlockHide();
         }
 
     }
 
     private class FilterSectionsAdapter extends RecyclerView.Adapter<FilterSectionsHolder> {
-
         private List<Section> mSections;
 
         public FilterSectionsAdapter(List<Section> sections) {
@@ -85,11 +102,25 @@ public class Filter {
         }
     }
 
-    private void updateUI() {
-        Sections sections = Sections.get(mContext);
-        List<Section> sectionsArray = sections.getSections();
+    private class FetchSectionsFilterTask extends AsyncTask<Void,Void,List<Section>> {
+
+        @Override
+        protected List<Section> doInBackground(Void... params) {
+            return new Fetchr().fetchSectionsFilter();
+        }
+
+        @Override
+        protected void onPostExecute(List<Section> items) {
+            setupAdapter(items);
+        }
+    }
+
+    private void setupAdapter(List<Section> sectionsArray) {
         mAdapter = new FilterSectionsAdapter(sectionsArray);
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void updateItems(){
+        new FetchSectionsFilterTask().execute();
+    }
 }

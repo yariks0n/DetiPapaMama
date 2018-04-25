@@ -1,7 +1,7 @@
 package com.webgroup.yarik.detipapamama;
 
 public class Section {
-
+    private int id;
     private String name;
     private String code;
 
@@ -19,5 +19,13 @@ public class Section {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

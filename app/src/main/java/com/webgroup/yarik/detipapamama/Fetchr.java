@@ -97,6 +97,37 @@ public class Fetchr {
         return items;
     }
 
+    public List<Section> fetchSectionsFilter() {
+        Uri sectionsFilter = Uri
+                .parse("http://detipapamama.ru/xapi/v1.0/get_sections_for_filter.php")
+                .buildUpon()
+                .appendQueryParameter("api_key", API_KEY)
+                .build();
+
+        String url = sectionsFilter.toString();
+        return downloadSectionsFilter(url);
+    }
+
+    private List<Section> downloadSectionsFilter(String url){
+        List<Section> items = new ArrayList<>();
+
+        try {
+            String jsonString = getUrlString(url);
+            Log.i(TAG, "Received JSON: " + jsonString);
+            //JSONObject jsonBody = new JSONObject(jsonString);
+
+            JSONArray jsonArray = new JSONArray(jsonString);
+            parseSections(items, jsonArray);
+
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch items", ioe);
+        } catch (JSONException je){
+            Log.e(TAG, "Failed to parse JSON", je);
+        }
+
+        return items;
+    }
+
     private void parseItems(List<Product> items, JSONArray jsonArray)
             throws IOException, JSONException {
 
@@ -110,6 +141,20 @@ public class Fetchr {
                 item.setOldPrice(photoJsonObject.getString("old_price"));
             item.setImgUrl(photoJsonObject.getString("img"));
             item.setUrl(photoJsonObject.getString("detail_url"));
+            items.add(item);
+        }
+    }
+
+    private void parseSections(List<Section> items, JSONArray jsonArray)
+            throws IOException, JSONException {
+
+        JSONArray productJsonArray = jsonArray;
+        for (int i = 0; i < productJsonArray.length(); i++) {
+            JSONObject photoJsonObject = productJsonArray.getJSONObject(i);
+            Section item = new Section();
+            item.setId(photoJsonObject.getInt("id"));
+            item.setName(photoJsonObject.getString("name"));
+            item.setCode(photoJsonObject.getString("code"));
             items.add(item);
         }
     }
