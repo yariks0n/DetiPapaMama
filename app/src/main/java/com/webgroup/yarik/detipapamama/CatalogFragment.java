@@ -40,7 +40,7 @@ public class CatalogFragment extends Fragment {
 
     private static final String TAG = "CatalogFragment";
     private RecyclerView mCatalogRecyclerView;
-    private LinearLayout mFilterBlock;
+    private LinearLayout mFilterBlock, mSortBlock;
     private ProgressBar mProgressBar;
 
     private TextView mFilterAction, mSortAction;
@@ -116,9 +116,6 @@ public class CatalogFragment extends Fragment {
         mFilterBlock.setMinimumWidth(Settings.getScreenSize().x / 2);
         mFilterBlock.setTranslationX(-Settings.getScreenSize().x / 2);
 
-        final Animation fallingAnimation = AnimationUtils.loadAnimation(v.getContext(),
-                R.anim.left_in);
-
         mFilterAction = (TextView) v.findViewById(R.id.action_filter);
         mFilterAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +130,35 @@ public class CatalogFragment extends Fragment {
             }
         });
 
+        mSortBlock = (LinearLayout) v.findViewById(R.id.sort_block);
+        mSortBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float xStart = Settings.getScreenSize().x / 2;
+                float xEnd = Settings.getScreenSize().x + Settings.getScreenSize().x / 2;
+                ObjectAnimator hide = ObjectAnimator
+                        .ofFloat(mSortBlock, "x", xStart, xEnd)
+                        .setDuration(400);
+                hide.setInterpolator(new AccelerateInterpolator());
+                hide.start();
+            }
+        });
+        mSortBlock.setMinimumWidth(Settings.getScreenSize().x / 2);
+        mSortBlock.setTranslationX(Settings.getScreenSize().x + Settings.getScreenSize().x / 2);
+
         mSortAction = (TextView) v.findViewById(R.id.action_sort);
+        mSortAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float xStart = mSortBlock.getTranslationX();
+                float xEnd = Settings.getScreenSize().x / 2;
+                ObjectAnimator show = ObjectAnimator
+                        .ofFloat(mSortBlock, "x", xStart, xEnd)
+                        .setDuration(400);
+                show.setInterpolator(new AccelerateInterpolator());
+                show.start();
+            }
+        });
 
         mCatalogRecyclerView = (RecyclerView) v.findViewById(R.id.catalog_recycler_view);
         mCatalogRecyclerView.setLayoutManager(new LinearLayoutManager
@@ -348,6 +373,7 @@ public class CatalogFragment extends Fragment {
         public FetchItemsTask(String query, String sections) {
             mQuery = query;
             mSections = sections;
+            showProgressBar();
         }
 
         @Override

@@ -35,6 +35,9 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/action_filter"
+            android:textColor="#2CA5FF"
+            android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="@string/action_filter" />
 
         <TextView
@@ -44,6 +47,9 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/action_sort"
+            android:textColor="#2CA5FF"
+            android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="@string/action_sort" />
 
     </LinearLayout>
@@ -57,33 +63,26 @@
         android:elevation="2dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sections_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:text="Разделы"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:paddingTop="46dp"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/sections_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:paddingTop="46dp"></android.support.v7.widget.RecyclerView>
-        </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/sort_block"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border_w_shadow"
+        android:elevation="2dp"
+        android:orientation="vertical">
     </LinearLayout>
 
     <ProgressBar
