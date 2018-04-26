@@ -7,7 +7,7 @@ public class Product {
     private String mName;
     private String mPrice;
     private String mOldPrice;
-    private int mId;
+    private String mId;
     private String mUrl;
     private String imgUrl;
 
@@ -47,11 +47,11 @@ public class Product {
         this.mOldPrice = mOldPrice;
     }
 
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
-    public void setId(int mId) {
+    public void setId(String mId) {
         this.mId = mId;
     }
 

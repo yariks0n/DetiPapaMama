@@ -136,6 +136,7 @@ public class Fetchr {
         for (int i = 0; i < productJsonArray.length(); i++) {
             JSONObject photoJsonObject = productJsonArray.getJSONObject(i);
             Product item = new Product();
+            item.setId(photoJsonObject.getString("id"));
             item.setName(photoJsonObject.getString("name"));
             item.setPrice(photoJsonObject.getString("price"));
             if(!photoJsonObject.getString("price").equals(photoJsonObject.getString("old_price")))
@@ -149,13 +150,13 @@ public class Fetchr {
     private void parseSections(List<Section> items, JSONArray jsonArray)
             throws IOException, JSONException {
 
-        JSONArray productJsonArray = jsonArray;
-        for (int i = 0; i < productJsonArray.length(); i++) {
-            JSONObject photoJsonObject = productJsonArray.getJSONObject(i);
+        JSONArray sectionJsonArray = jsonArray;
+        for (int i = 0; i < sectionJsonArray.length(); i++) {
+            JSONObject sectionJsonObject = sectionJsonArray.getJSONObject(i);
             Section item = new Section();
-            item.setId(photoJsonObject.getInt("id"));
-            item.setName(photoJsonObject.getString("name"));
-            item.setCode(photoJsonObject.getString("code"));
+            item.setId(sectionJsonObject.getInt("id"));
+            item.setName(sectionJsonObject.getString("name"));
+            item.setCode(sectionJsonObject.getString("code"));
             items.add(item);
         }
     }
