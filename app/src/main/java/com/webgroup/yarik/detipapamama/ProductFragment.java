@@ -1,5 +1,6 @@
 package com.webgroup.yarik.detipapamama;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -42,6 +43,16 @@ public class ProductFragment extends Fragment {
 
         mProductName = (TextView) v.findViewById(R.id.productName);
         mProductName.setText(mProduct.getId());
+
+        mProductName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getContext(),GalleryActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return v;
     }
 
