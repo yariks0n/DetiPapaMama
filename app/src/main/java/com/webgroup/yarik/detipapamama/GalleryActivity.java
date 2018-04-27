@@ -14,22 +14,17 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
-        TextPagerAdapter mTextPagerAdapter = new TextPagerAdapter(
+        GalleryPagerAdapter galleryPagerAdapter = new GalleryPagerAdapter(
                 getSupportFragmentManager(), getData());
 
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mTextPagerAdapter);
+        mViewPager.setAdapter(galleryPagerAdapter);
 
         // mViewPager.setCurrentItem(10);
     }
 
-    private List<String> getData() {
-        List<String> data = new ArrayList<>();
-        for (int i = 1; i < 30; i++) {
-            data.add("Item number " + i);
-        }
-
-        return data;
+    private String[] getData() {
+        return Temp.getStringArray();
     }
 }
 

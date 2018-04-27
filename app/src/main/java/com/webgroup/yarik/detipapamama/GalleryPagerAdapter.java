@@ -7,24 +7,23 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
-public class TextPagerAdapter extends FragmentStatePagerAdapter {
+public class GalleryPagerAdapter extends FragmentStatePagerAdapter {
 
-    List<String> data;
+    String[] data;
 
-    public TextPagerAdapter(FragmentManager fm, List<String> data) {
+    public GalleryPagerAdapter(FragmentManager fm, String[] data) {
         super(fm);
         this.data = data;
     }
 
     @Override
     public Fragment getItem(int i) {
-
-        Fragment fragment = new ItemFragment();
+        Fragment fragment = new GalleryFragment();
 
         Bundle args = new Bundle();
-        args.putString(ItemFragment.ARG_TEXT, data.get(i));
-        args.putInt(ItemFragment.ARG_POSITION, i+1);
-        args.putInt(ItemFragment.ARG_COUNT, getCount());
+        args.putString(GalleryFragment.ARG_IMG_URL, data[i]);
+        args.putInt(GalleryFragment.ARG_POSITION, i+1);
+        args.putInt(GalleryFragment.ARG_COUNT, getCount());
 
         fragment.setArguments(args);
 
@@ -33,11 +32,11 @@ public class TextPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return data.length;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Item " + (position + 1);
+        return "Img " + (position + 1);
     }
 }

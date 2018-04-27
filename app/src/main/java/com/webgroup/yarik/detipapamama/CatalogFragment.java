@@ -274,7 +274,7 @@ public class CatalogFragment extends Fragment {
 
         public CatalogHolder(View itemView) {
             super(itemView);
-            mItemImageView = (ImageView) itemView.findViewById(R.id.productImg);
+            mItemImageView = (ImageView) itemView.findViewById(R.id.img);
             mNameTextView = (TextView)itemView.findViewById(R.id.name);
             mPriceTextView = (TextView)itemView.findViewById(R.id.price);
             mOldPriceTextView = (TextView)itemView.findViewById(R.id.old_price);

@@ -1,27 +1,18 @@
 package com.webgroup.yarik.detipapamama;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import java.util.List;
-import java.util.UUID;
 
 public class ProductFragment extends Fragment {
     private static final String TAG = "ProductFragment";
@@ -32,7 +23,7 @@ public class ProductFragment extends Fragment {
 
     private ConstraintLayout productBlock;
     private ProgressBar detailDownload;
-    private TextView mProductName;
+    private TextView mProductName,mProductPrice,mProductOldPrice;
     private ImageView mProductImage;
 
     public static ProductFragment newInstance(String id){
@@ -59,15 +50,19 @@ public class ProductFragment extends Fragment {
         detailDownload = (ProgressBar) v.findViewById(R.id.detailDownload);
 
         mProductName = (TextView) v.findViewById(R.id.productName);
-        mProductName.setOnClickListener(new View.OnClickListener() {
+        mProductPrice = (TextView) v.findViewById(R.id.productPrice);
+        mProductOldPrice = (TextView) v.findViewById(R.id.productOldPrice);
+        mProductOldPrice.setPaintFlags(mProductOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+        mProductImage = (ImageView) v.findViewById(R.id.img);
+        mProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Temp.setStringArray(mProduct.getMorePhoto());
                 Intent intent = new Intent(getContext(),GalleryActivity.class);
                 startActivity(intent);
             }
         });
-
-        mProductImage = (ImageView) v.findViewById(R.id.productImg);
 
         showDownloadProduct();
         new FetchTask().execute();
@@ -112,9 +107,12 @@ public class ProductFragment extends Fragment {
             if(mProduct.getId() != null) {
 
                 mProductName.setText(mProduct.getName());
+                mProductPrice.setText(mProduct.getPriceFormat());
+                mProductOldPrice.setText(mProduct.getOldPriceFormat());
                 new DownloadImageTask(mProductImage).execute(mProduct.getImgUrl());
 
                 hideDownloadProduct();
+
             }
         }
 

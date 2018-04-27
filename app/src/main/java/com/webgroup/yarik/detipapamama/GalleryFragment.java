@@ -5,11 +5,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ItemFragment extends Fragment {
+public class GalleryFragment extends Fragment {
 
-    public static final String ARG_TEXT = "item_text";
+    public static final String ARG_IMG_URL = "iim_url";
     public static final String ARG_POSITION = "item_position";
     public static final String ARG_COUNT = "item_count";
 
@@ -19,11 +20,13 @@ public class ItemFragment extends Fragment {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
         View rootView = inflater.inflate(
-                R.layout.pager_item, container, false);
+                R.layout.gallery_item, container, false);
         Bundle args = getArguments();
 
-        ((TextView) rootView.findViewById(R.id.text1)).setText(
-                args.getString(ARG_TEXT));
+        /*((TextView) rootView.findViewById(R.id.text1)).setText(
+                args.getString(ARG_TEXT));*/
+
+        new DownloadImageTask(((ImageView) rootView.findViewById(R.id.img))).execute(args.getString(ARG_IMG_URL));
 
         ((TextView) rootView.findViewById(R.id.txtCount)).setText(
                 args.getInt(ARG_POSITION) + " / " + args.getInt(ARG_COUNT));
