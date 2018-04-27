@@ -1,38 +1,29 @@
 package com.webgroup.yarik.detipapamama;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -283,7 +274,7 @@ public class CatalogFragment extends Fragment {
 
         public CatalogHolder(View itemView) {
             super(itemView);
-            mItemImageView = (ImageView) itemView.findViewById(R.id.img);
+            mItemImageView = (ImageView) itemView.findViewById(R.id.productImg);
             mNameTextView = (TextView)itemView.findViewById(R.id.name);
             mPriceTextView = (TextView)itemView.findViewById(R.id.price);
             mOldPriceTextView = (TextView)itemView.findViewById(R.id.old_price);

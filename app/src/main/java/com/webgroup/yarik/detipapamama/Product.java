@@ -10,6 +10,7 @@ public class Product {
     private String mId;
     private String mUrl;
     private String imgUrl;
+    private String[] morePhoto;
 
     public String getName() {
         return mName;
@@ -69,5 +70,13 @@ public class Product {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String[] getMorePhoto() {
+        return morePhoto;
+    }
+
+    public void setMorePhoto(String[] morePhoto) {
+        this.morePhoto = morePhoto;
     }
 }

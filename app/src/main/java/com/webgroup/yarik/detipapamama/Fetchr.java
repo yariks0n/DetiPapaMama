@@ -129,6 +129,38 @@ public class Fetchr {
         return items;
     }
 
+    public Product fetchProductDetail(String product_id) {
+        Uri uri = Uri
+                .parse("http://detipapamama.ru/xapi/v1.0/get_detail_product.php")
+                .buildUpon()
+                .appendQueryParameter("api_key", API_KEY)
+                .appendQueryParameter("product_id", product_id)
+                .build();
+
+        String url = uri.toString();
+        return downloadProductDetail(url);
+    }
+
+    private Product downloadProductDetail(String url){
+        Product item = new Product();
+
+        try {
+            String jsonString = getUrlString(url);
+            Log.i(TAG, "Received JSON: " + jsonString);
+            //JSONObject jsonBody = new JSONObject(jsonString);
+
+            JSONArray jsonArray = new JSONArray(jsonString);
+            parseProduct(item, jsonArray);
+
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch items", ioe);
+        } catch (JSONException je){
+            Log.e(TAG, "Failed to parse JSON", je);
+        }
+
+        return item;
+    }
+
     private void parseItems(List<Product> items, JSONArray jsonArray)
             throws IOException, JSONException {
 
@@ -159,6 +191,30 @@ public class Fetchr {
             item.setCode(sectionJsonObject.getString("code"));
             items.add(item);
         }
+    }
+
+    private void parseProduct(Product item, JSONArray jsonArray)
+            throws IOException, JSONException {
+
+        JSONArray productJsonArray = jsonArray;
+        JSONObject productJsonData = productJsonArray.getJSONObject(0);
+
+        Log.i(TAG,"Result "+productJsonData.getString("result"));
+
+        if(productJsonData.getString("result").equals("1")){
+            JSONObject productJsonObject = productJsonData.getJSONObject("data");
+            item.setId(productJsonObject.getString("id"));
+            item.setName(productJsonObject.getString("name"));
+            item.setPrice(productJsonObject.getString("price"));
+            if(!productJsonObject.getString("price").equals(productJsonObject.getString("old_price")))
+                item.setOldPrice(productJsonObject.getString("old_price"));
+            item.setImgUrl(productJsonObject.getString("img"));
+            String[] morePhoto = productJsonObject.getString("more_photo").split(";");
+            item.setMorePhoto(morePhoto);
+        }else{
+
+        }
+
     }
 
 }
