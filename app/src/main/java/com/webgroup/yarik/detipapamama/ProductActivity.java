@@ -16,7 +16,6 @@ public class ProductActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         String product_id = (String) getIntent()
                 .getSerializableExtra(EXTRA_PRODUCT_ID);
-        Log.i(TAG,"ProductActivity createFragment");
         return ProductFragment.newInstance(product_id);
     }
 
@@ -24,8 +23,13 @@ public class ProductActivity extends SingleFragmentActivity {
     public static Intent newIntent(Context packageContext, String product_id) {
         Intent intent = new Intent(packageContext, ProductActivity.class);
         intent.putExtra(EXTRA_PRODUCT_ID, product_id);
-        Log.i(TAG,"ProductActivity newIntent");
         return intent;
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
 }

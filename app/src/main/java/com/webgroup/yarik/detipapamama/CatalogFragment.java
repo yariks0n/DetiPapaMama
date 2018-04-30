@@ -297,7 +297,7 @@ public class CatalogFragment extends Fragment {
 
             Intent intent = ProductActivity.newIntent(getContext(), mProduct.getId());
             startActivity(intent);
-
+            getActivity().overridePendingTransition(R.anim.fade_out,R.anim.fade_out);
         }
     }
 

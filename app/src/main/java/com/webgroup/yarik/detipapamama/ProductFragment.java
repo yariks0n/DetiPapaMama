@@ -61,6 +61,7 @@ public class ProductFragment extends Fragment {
                 Temp.setStringArray(mProduct.getMorePhoto());
                 Intent intent = new Intent(getContext(),GalleryActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
 

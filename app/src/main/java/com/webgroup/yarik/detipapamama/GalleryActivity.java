@@ -20,7 +20,6 @@ public class GalleryActivity extends AppCompatActivity {
         ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(galleryPagerAdapter);
 
-        // mViewPager.setCurrentItem(10);
     }
 
     private String[] getData() {
