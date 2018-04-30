@@ -16,4 +16,6 @@
     <string name="sort_new">Сначала Новинки</string>
     <string name="sort_price_asc">Сначала дешёвые</string>
     <string name="sort_price_desc">Сначала дорогие</string>
+
+    <string name="to_order">Заказать</string>
 </resources>

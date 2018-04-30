@@ -206,6 +206,7 @@ public class Fetchr {
             item.setId(productJsonObject.getString("id"));
             item.setName(productJsonObject.getString("name"));
             item.setPrice(productJsonObject.getString("price"));
+            item.setUrl(productJsonObject.getString("detail_url"));
             if(!productJsonObject.getString("price").equals(productJsonObject.getString("old_price")))
                 item.setOldPrice(productJsonObject.getString("old_price"));
             item.setImgUrl(productJsonObject.getString("img"));

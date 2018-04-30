@@ -291,10 +291,6 @@ public class CatalogFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            /*Uri address = Uri.parse(mProduct.getUrl());
-            Intent i = new Intent(Intent.ACTION_VIEW,address);
-            startActivity(i);*/
-
             Intent intent = ProductActivity.newIntent(getContext(), mProduct.getId());
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.fade_out,R.anim.fade_out);

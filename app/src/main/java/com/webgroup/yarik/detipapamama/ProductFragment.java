@@ -2,6 +2,7 @@ package com.webgroup.yarik.detipapamama;
 
 import android.content.Intent;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -50,6 +51,15 @@ public class ProductFragment extends Fragment {
         detailDownload = (ProgressBar) v.findViewById(R.id.detailDownload);
 
         mProductName = (TextView) v.findViewById(R.id.productName);
+        mProductName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri address = Uri.parse(mProduct.getUrl());
+                Intent i = new Intent(Intent.ACTION_VIEW,address);
+                startActivity(i);
+            }
+        });
+
         mProductPrice = (TextView) v.findViewById(R.id.productPrice);
         mProductOldPrice = (TextView) v.findViewById(R.id.productOldPrice);
         mProductOldPrice.setPaintFlags(mProductOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
