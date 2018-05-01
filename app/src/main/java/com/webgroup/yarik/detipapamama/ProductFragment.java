@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class ProductFragment extends Fragment {
     private ProgressBar detailDownload;
     private TextView mProductName,mProductPrice,mProductOldPrice;
     private ImageView mProductImage;
+    private Button orderBtn;
 
     public static ProductFragment newInstance(String id){
         Bundle args = new Bundle();
@@ -74,6 +76,17 @@ public class ProductFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
             }
         });
+
+        orderBtn = (Button) v.findViewById(R.id.orderBtn);
+        orderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = OrderActivity.newIntent(getContext(), mProduct.getId());
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fade_out,R.anim.fade_out);
+            }
+        });
+
 
         showDownloadProduct();
         new FetchTask().execute();

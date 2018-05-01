@@ -18,4 +18,8 @@
     <string name="sort_price_desc">Сначала дорогие</string>
 
     <string name="to_order">Заказать</string>
+    <string name="order_name">Ваше имя</string>
+    <string name="order_phone">Телефон</string>
+    <string name="order_email">Email</string>
+    <string name="order_comment">Комментарий</string>
 </resources>
