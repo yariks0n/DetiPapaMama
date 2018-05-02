@@ -218,4 +218,37 @@ public class Fetchr {
 
     }
 
+
+    public OrderResult orderRequest(String name, String email, String phone, String message, String product) {
+        Uri uri = Uri
+                .parse("http://detipapamama.ru/xapi/v1.0/to_order.php")
+                .buildUpon()
+                .appendQueryParameter("api_key", API_KEY)
+                .appendQueryParameter("name", name)
+                .appendQueryParameter("email", email)
+                .appendQueryParameter("phone", phone)
+                .appendQueryParameter("message", message)
+                .appendQueryParameter("product", product)
+                .build();
+
+        String url = uri.toString();
+        String resultMessage = "";
+        OrderResult orderResult = new OrderResult();
+        try {
+            String jsonString = getUrlString(url);
+            Log.i(TAG, "Received JSON: " + jsonString);
+            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            orderResult.setResultCode(jsonData.getString("result"));
+            orderResult.setResultMessage(jsonData.getString("message"));
+            orderResult.setResultHint(jsonData.getString("hint"));
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch", ioe);
+        } catch (JSONException je){
+            Log.e(TAG, "Failed to parse JSON", je);
+        }
+
+        return orderResult;
+    }
+
 }
