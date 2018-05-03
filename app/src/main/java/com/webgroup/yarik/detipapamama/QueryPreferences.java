@@ -16,6 +16,9 @@ public class QueryPreferences {
     private static final String PREF_SORT = "sort";
     private static final String PREF_LAST_RESULT_ID = "lastResultId";
 
+    private static final String ORDER_NAME = "order_name";
+    private static final String ORDER_EMAIL = "order_email";
+    private static final String ORDER_PHONE = "order_phone";
 
     public static String getSortQuery(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
@@ -138,6 +141,40 @@ public class QueryPreferences {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
                 .putString(PREF_LAST_RESULT_ID, lastResultId)
+                .apply();
+    }
+
+
+    public static String getOrderName(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(ORDER_NAME, null);
+    }
+    public static void setOrderName(Context context, String query) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(ORDER_NAME, query)
+                .apply();
+    }
+
+    public static String getOrderEmail(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(ORDER_EMAIL, null);
+    }
+    public static void setOrderEmail(Context context, String query) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(ORDER_EMAIL, query)
+                .apply();
+    }
+
+    public static String getOrderPhone(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(ORDER_PHONE, null);
+    }
+    public static void setOrderPhone(Context context, String query) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(ORDER_PHONE, query)
                 .apply();
     }
 

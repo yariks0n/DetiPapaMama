@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class OrderFragment extends Fragment {
-
+    private static final String TAG = "OrderFragment";
     private static final String ARG_PRODUCT_ID = "product_id";
     private String productID;
     private EditText order_name,order_phone,order_email,order_comment;
@@ -53,8 +54,41 @@ public class OrderFragment extends Fragment {
         result_hint = (TextView) v.findViewById(R.id.result_hint);
 
         order_name = (EditText) v.findViewById(R.id.order_name);
+        order_name.setText(QueryPreferences.getOrderName(getContext()));
+        order_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String new_val = order_name.getText().toString();
+                if(!hasFocus){
+                    QueryPreferences.setOrderName(getContext(),new_val);
+                }
+            }
+        });
+
         order_email = (EditText) v.findViewById(R.id.order_email);
+        order_email.setText(QueryPreferences.getOrderEmail(getContext()));
+        order_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String new_val = order_email.getText().toString();
+                if(!hasFocus){
+                    QueryPreferences.setOrderEmail(getContext(),new_val);
+                }
+            }
+        });
+
         order_phone = (EditText) v.findViewById(R.id.order_phone);
+        order_phone.setText(QueryPreferences.getOrderPhone(getContext()));
+        order_phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String new_val = order_phone.getText().toString();
+                if(!hasFocus){
+                    QueryPreferences.setOrderPhone(getContext(),new_val);
+                }
+            }
+        });
+
         order_comment = (EditText) v.findViewById(R.id.order_comment);
 
         orderBtn = (Button) v.findViewById(R.id.order_button);
@@ -111,8 +145,8 @@ public class OrderFragment extends Fragment {
                 result_text.setTextColor(Color.RED);
                 result_hint.setTextColor(Color.RED);
             } else {
-                result_text.setTextColor(Color.GREEN);
-                result_hint.setTextColor(Color.RED);
+                result_text.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                result_hint.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             }
             result_text.setText(orderResult.getResultMessage());
             result_hint.setText(orderResult.getResultHint());
