@@ -22,4 +22,6 @@
     <string name="order_phone">Телефон</string>
     <string name="order_email">Email</string>
     <string name="order_comment">Комментарий</string>
+
+    <string name="notify_new_updates">Оповещать о новинках</string>
 </resources>

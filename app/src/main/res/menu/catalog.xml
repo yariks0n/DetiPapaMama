@@ -12,36 +12,13 @@
         android:title="@string/clear_search"
         app:showAsAction="never" />
 
-    <!--<group android:checkableBehavior="all">
+    <group android:checkableBehavior="all">
 
         <item
-            android:id="@+id/detskie_tovary"
+            android:id="@+id/notify_new_updates"
             android:orderInCategory="100"
-            android:title="@string/detskie_tovary"
+            android:title="@string/notify_new_updates"
             app:showAsAction="never" />
 
-        <item
-            android:id="@+id/sport_i_otdykh"
-            android:orderInCategory="100"
-            android:title="@string/sport_i_otdykh"
-            app:showAsAction="never" />
-
-        <item
-            android:id="@+id/dom_i_dacha"
-            android:orderInCategory="100"
-            android:title="@string/dom_i_dacha"
-            app:showAsAction="never" />
-
-        <item
-            android:id="@+id/dosug_i_razvlecheniya"
-            android:orderInCategory="100"
-            android:title="@string/dosug_i_razvlecheniya"
-            app:showAsAction="never" />
-
-        <item
-            android:id="@+id/mebel"
-            android:orderInCategory="100"
-            android:title="@string/mebel"
-            app:showAsAction="never" />
-    </group>-->
+    </group>
 </menu>

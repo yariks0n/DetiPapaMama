@@ -20,6 +20,19 @@ public class QueryPreferences {
     private static final String ORDER_EMAIL = "order_email";
     private static final String ORDER_PHONE = "order_phone";
 
+    private static final String NOTIFY_NEW = "NOTIFY_NEW";
+
+    public static int getNotifyNew(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getInt(NOTIFY_NEW, 0);
+    }
+    public static void setNotifyNew(Context context, int query) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putInt(NOTIFY_NEW, query)
+                .apply();
+    }
+
     public static String getSortQuery(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(PREF_SORT, null);
@@ -66,8 +79,6 @@ public class QueryPreferences {
                     .putString(PREF_SEARCH_SECTIONS, query)
                     .apply();
         }else{
-            Log.i("PREFS","query: "+query);
-            Log.i("PREFS","strQuery: "+strQuery);
             if(strQuery.equals("")){
                 PreferenceManager.getDefaultSharedPreferences(context)
                         .edit()

@@ -44,6 +44,8 @@ public class CatalogFragment extends Fragment {
     private boolean isNewSearch = false;
     private ThumbnailDownloader<CatalogHolder> mThumbnailDownloader;
 
+    private MenuItem notifyNew;
+
     public static CatalogFragment newInstance(){
         return new CatalogFragment();
     }
@@ -220,7 +222,8 @@ public class CatalogFragment extends Fragment {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.catalog, menu);
 
-        android.view.MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+
         final SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -249,6 +252,10 @@ public class CatalogFragment extends Fragment {
             }
         });
 
+        notifyNew = menu.findItem(R.id.notify_new_updates);
+        if(QueryPreferences.getNotifyNew(getContext()) == 1){
+            notifyNew.setChecked(true);
+        }
     }
 
     @Override
@@ -259,6 +266,17 @@ public class CatalogFragment extends Fragment {
                 QueryPreferences.setStoredQuery(getActivity(), null);
                 updateItems();
                 return true;
+
+            case R.id.notify_new_updates:
+                if(QueryPreferences.getNotifyNew(getContext()) == 1){
+                    QueryPreferences.setNotifyNew(getContext(),0);
+                    notifyNew.setChecked(false);
+                }else{
+                    QueryPreferences.setNotifyNew(getContext(),1);
+                    notifyNew.setChecked(true);
+                }
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
