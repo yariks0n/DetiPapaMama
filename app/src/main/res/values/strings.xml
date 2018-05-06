@@ -24,4 +24,7 @@
     <string name="order_comment">Комментарий</string>
 
     <string name="notify_new_updates">Оповещать о новинках</string>
+
+    <string name="notify_new_updates_title">У нас новые товары</string>
+    <string name="notify_new_updates_desc">скорее посмотрите!</string>
 </resources>

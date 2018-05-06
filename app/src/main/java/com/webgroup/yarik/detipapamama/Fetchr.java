@@ -236,7 +236,6 @@ public class Fetchr {
         OrderResult orderResult = new OrderResult();
         try {
             String jsonString = getUrlString(url);
-            Log.i(TAG, "Received JSON: " + jsonString);
             JSONArray jsonArray = new JSONArray(jsonString);
             JSONObject jsonData = jsonArray.getJSONObject(0);
             orderResult.setResultCode(jsonData.getString("result"));
@@ -251,4 +250,27 @@ public class Fetchr {
         return orderResult;
     }
 
+
+    public String getLastNewProductId() {
+        Uri uri = Uri
+                .parse("http://detipapamama.ru/xapi/v1.0/last_new_product_id.php")
+                .buildUpon()
+                .appendQueryParameter("api_key", API_KEY)
+                .build();
+        String url = uri.toString();
+        String lastNeProductId = "";
+        try {
+            String jsonString = getUrlString(url);
+            //Log.i(TAG, "Received JSON: " + jsonString);
+            JSONArray jsonArray = new JSONArray(jsonString);
+            JSONObject jsonData = jsonArray.getJSONObject(0);
+            lastNeProductId = jsonData.getString("id");
+        } catch (IOException ioe) {
+            Log.e(TAG, "Failed to fetch", ioe);
+        } catch (JSONException je){
+            Log.e(TAG, "Failed to parse JSON", je);
+        }
+        //Log.i(TAG,"lastNeProductId "+lastNeProductId);
+        return lastNeProductId;
+    }
 }

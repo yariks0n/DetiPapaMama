@@ -90,4 +90,26 @@ public class Sort {
         sort_price_desc.setBackgroundColor(Color.WHITE);
     }
 
+    public void setSortActive(View v){
+        updateSortItems();
+        String val = v.getTag().toString();
+        v.setBackgroundColor(Color.parseColor("#F5F5F5"));
+        QueryPreferences.setSortQuery(mContext,val);
+    }
+
+    public void redrawSortItems(){
+        if(QueryPreferences.getSortQuery(mContext).equals("sort_popular")){
+            setSortActive(sort_popular);
+        }
+        if(QueryPreferences.getSortQuery(mContext).equals("sort_new")){
+            setSortActive(sort_new);
+        }
+        if(QueryPreferences.getSortQuery(mContext).equals("sort_price_desc")){
+            setSortActive(sort_price_desc);
+        }
+        if(QueryPreferences.getSortQuery(mContext).equals("sort_price_asc")){
+            setSortActive(sort_price_asc);
+        }
+    }
+
 }

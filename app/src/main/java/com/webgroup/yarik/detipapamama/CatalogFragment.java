@@ -45,6 +45,7 @@ public class CatalogFragment extends Fragment {
     private ThumbnailDownloader<CatalogHolder> mThumbnailDownloader;
 
     private MenuItem notifyNew;
+    private Sort sort;
 
     public static CatalogFragment newInstance(){
         return new CatalogFragment();
@@ -76,7 +77,6 @@ public class CatalogFragment extends Fragment {
         //Log.i(TAG, "Background thread started");
     }
 
-
     public void mFilterBlockHide(){
         float xStart = 0;
         float xEnd = -mFilterBlock.getWidth();
@@ -104,7 +104,7 @@ public class CatalogFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_catalog_list, container,
                 false);
         Filter filter = new Filter(this, v);
-        Sort sort = new Sort(this, v);
+        sort = new Sort(this, v);
 
         mFilterBlock = (LinearLayout) v.findViewById(R.id.filter_block);
         mFilterBlock.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +151,7 @@ public class CatalogFragment extends Fragment {
                         .setDuration(400);
                 show.setInterpolator(new AccelerateInterpolator());
                 show.start();
+                sort.redrawSortItems();
             }
         });
 
@@ -253,7 +254,7 @@ public class CatalogFragment extends Fragment {
         });
 
         notifyNew = menu.findItem(R.id.notify_new_updates);
-        if(QueryPreferences.getNotifyNew(getContext()) == 1){
+        if (NewProductService.isServiceAlarmOn(getActivity())) {
             notifyNew.setChecked(true);
         }
     }
@@ -268,13 +269,10 @@ public class CatalogFragment extends Fragment {
                 return true;
 
             case R.id.notify_new_updates:
-                if(QueryPreferences.getNotifyNew(getContext()) == 1){
-                    QueryPreferences.setNotifyNew(getContext(),0);
-                    notifyNew.setChecked(false);
-                }else{
-                    QueryPreferences.setNotifyNew(getContext(),1);
-                    notifyNew.setChecked(true);
-                }
+                boolean shouldStartAlarm = !NewProductService.isServiceAlarmOn
+                        (getActivity());
+                NewProductService.setServiceAlarm(getActivity(), shouldStartAlarm);
+                getActivity().invalidateOptionsMenu();
                 return true;
 
             default:

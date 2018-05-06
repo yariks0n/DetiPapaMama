@@ -14,7 +14,7 @@ public class QueryPreferences {
     private static final String PREF_SEARCH_QUERY = "searchQuery";
     private static final String PREF_SEARCH_SECTIONS = "searchSections";
     private static final String PREF_SORT = "sort";
-    private static final String PREF_LAST_RESULT_ID = "lastResultId";
+    private static final String PREF_LAST_NEW_PRODUCT_ID = "lastNewProductId";
 
     private static final String ORDER_NAME = "order_name";
     private static final String ORDER_EMAIL = "order_email";
@@ -68,6 +68,13 @@ public class QueryPreferences {
             newArrayList.add(sections[i]);
         }
         return newArrayList;
+    }
+
+    public static void clearStoredSections(Context context) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putString(PREF_SEARCH_SECTIONS, "")
+                .apply();
     }
 
     public static void addStoredSections(Context context, String query) {
@@ -144,14 +151,14 @@ public class QueryPreferences {
         }
     }
 
-    public static String getLastResultId(Context context) {
+    public static String getLastNewProductId(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(PREF_LAST_RESULT_ID, null);
+                .getString(PREF_LAST_NEW_PRODUCT_ID, null);
     }
-    public static void setLastResultId(Context context, String lastResultId) {
+    public static void setLastNewProductId(Context context, String lastResultId) {
         PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
-                .putString(PREF_LAST_RESULT_ID, lastResultId)
+                .putString(PREF_LAST_NEW_PRODUCT_ID, lastResultId)
                 .apply();
     }
 
